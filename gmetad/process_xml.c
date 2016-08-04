@@ -42,6 +42,9 @@ extern int addstring(char *strings, int *edge, const char *s);
 /* Convension is that "object" pointers (struct pointers in C) are capitalized.
  */
 
+/* floating data precision length */
+#define DOUBLE_PRECISION 15
+
 typedef struct
    {
       int rval;
@@ -110,10 +113,19 @@ fillmetric(const char** attr, Metric_t *metric, const char* type)
                         case TIMESTAMP:
                         case UINT:
                         case FLOAT:
-                           metric->val.d = (double)
+                           metric_value = (double)
                                    strtod(metricval, (char**) NULL);
                            p = strrchr(metricval, '.');
-                           if (p) metric->precision = (short int) strlen(p+1);
+                           if (p) 
+                              {
+                                 short int metric_precision = strlen(p+1);
+                              	 bool is_too_long = metric_precision > DOUBLE_PRECISION;
+                                 if (is_too_long)
+                                    {
+                                         metric_precision = DOUBLE_PRECISION
+                                         char new_metric_value[];
+                                    }
+                              }
                            break;
                         case STRING:
                            /* We store string values in the 'valstr' field. */
